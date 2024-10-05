@@ -1,5 +1,4 @@
 [![codebeat badge](https://codebeat.co/badges/edbf8e35-99f3-45ee-861d-5d3c995b80c8)](https://codebeat.co/projects/github-com-passbook-bioauth-master)
-[![Tests](https://github.com/sentryco/BioAuth/actions/workflows/Tests.yml/badge.svg)](https://github.com/sentryco/BioAuth/actions/workflows/Tests.yml)
 
 # BioAuth 🧬
 
@@ -75,6 +74,9 @@ func notifyUser(_ msg: String, err: String? = nil) {
 - Assert if user has a passcode enabled  https://bencoding.com/2017/01/04/checking-if-device-passcode-is-enabled/
 - Some code regarding auto lock of database: https://github.com/mozilla-lockwise/lockwise-ios/blob/master/Shared/Common/Helpers/AutoLockSupport.swift
 - Obfuscate screen when app resigns active  https://github.com/mssun/passforios/blob/master/pass/AppDelegate.swift
+
+### License:
+This software is licensed under the MIT License. Please ensure to adhere to the licensing terms when using, modifying, or distributing this code.
 
 ### Todo: 
 - Re-name to "BiometryAuth"? or "Biometry"? or keep as is? keep as is, Apple might name something Biometry in the future and then you have an overlap issue etc 

@@ -26,7 +26,7 @@ BioAuth is designed to be easy to integrate into any project that requires biome
 You can add BioAuth to your project via Swift Package Manager, which is integrated into the Swift build system as of Swift 5.9. To add BioAuth to your project, modify your `Package.swift` file to include the following dependency:
 
 ```swift
-.package(url: "https://github.com/sentryco/bioauth.git", branch: "main")
+.package(url: "https://github.com/sentryco/BioAuth", branch: "main")
 ```
 
 This will configure your project to use the `main` branch of the BioAuth library from the specified GitHub repository.

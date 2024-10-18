@@ -94,3 +94,6 @@ This software is licensed under the MIT License. Please ensure to adhere to the 
 - Improve this package see: https://github.com/rushisangani/BiometricAuthentication
 - Add autolock after 3min for macOS by just invalidating bioauty, if the app has entered background and not entered foreground etc. Mac: We could simply start autolock after 3 mins  iPhone: when the app enters background mode, its locked. no need for timeout here
 - Detecting if the Touch ID/Face ID configurations have changed since the user’s last authentication. Resource to solve: https://www.cognizantsoftvision.com/blog/the-missing-step-when-using-face-id-or-touch-id-in-your-ios-app/
+- Remove unit tst, replace with uitests?
+- The error handling in the LAError+Extension.swift file could be enhanced by providing more specific and user-friendly error messages, especially for biometric authentication errors. This could improve the user experience by making the errors more understandable.
+- Updating and Refining .swiftlint.yml The SwiftLint configuration file has several rules commented out. Reviewing and deciding on the necessary rules to enforce coding standards consistently across the project would help in maintaining code quality.

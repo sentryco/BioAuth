@@ -1,12 +1,23 @@
 import Foundation
 import LocalAuthentication
 /**
- * This extension provides additional functionality to the AuthController class, including methods for handling biometric authentication and permission requests.
+ * - Description: This extension provides additional functionality to the
+ *                AuthController class, including methods for handling biometric
+ *                authentication and permission requests.
  */
 extension AuthController {
    /**
     * Ask permission and auth
-    * - Description: This method requests the user's permission for biometric authentication and, upon granting permission, proceeds to authenticate the user using their biometric data (e.g., Face ID or Touch ID). It utilizes the `askBiometricAvailability` method to determine if biometric authentication is possible and then calls the `authenticate` method to perform the actual authentication process. The result of the authentication attempt is returned via the `complete` closure, which takes a Boolean indicating success or failure.
+    * - Description: This method requests the user's permission for biometric
+    *                authentication and, upon granting permission, proceeds to
+    *                authenticate the user using their biometric data (e.g., Face
+    *                ID or Touch ID). It utilizes the `askBiometricAvailability`
+    *                method to determine if biometric authentication is possible
+    *                and then calls the `authenticate` method to perform the
+    *                actual authentication process. The result of the
+    *                authentication attempt is returned via the `complete`
+    *                closure, which takes a Boolean indicating success or
+    *                failure.
     * - Fixme: ⚠️️ Also return the error, so that we can give the user feedback regarding what is wrong etc
     * - Parameter complete: A closure that is called when the authentication process is complete, indicating success or failure.
     */
@@ -28,7 +39,14 @@ extension AuthController {
    }
    /**
     * Checks if user has given access to bioauth
-    * - Description: With this method, I will check if we can use any biometric authentication. If the user did not allow our first-time pop-up about FaceID or turned the biometric data toggle off from our app menu, it will give us an error based on that. The function will have a closure to act on it so we can use it on our VC or View. In this function, we’ll check if we can access biometric authentication with an inout variable to tell us what went wrong as NSError data.
+    * - Description: With this method, I will check if we can use any biometric
+    *                authentication. If the user did not allow our first-time pop-up
+    *                about FaceID or turned the biometric data toggle off from our
+    *                app menu, it will give us an error based on that. The function
+    *                will have a closure to act on it so we can use it on our VC or
+    *                View. In this function, we’ll check if we can access biometric
+    *                authentication with an inout variable to tell us what went
+    *                wrong as NSError data.
     * - Note: Alternative name: `checkPermission`
     * - Parameter completion: A closure that is called when the biometric authentication availability check is complete, indicating whether biometric authentication is available or not.
     * - Fixme: ⚠️️ Return error in tuple, see legacy BioAuth etc
@@ -56,9 +74,18 @@ extension AuthController {
       }
    }
    /**
-    * Now, we’ll add our authenticate function. This function will have a result builder that will take a boolean success case or LAError, which Swift provides us. Thus, we can use every case Apple gives us as an error. You don’t have to manipulate every case, but knowing which suits Apple may throw is crucial.
-    * - Abstract: Authenticates the user using biometric authentication.
-    * - Description: This function attempts to authenticate the user using biometric methods such as Face ID or Touch ID. It uses a result builder to handle the success or failure of the authentication attempt. The function leverages the LAError provided by Swift to handle various error cases that may occur during the authentication process.
+    * Authenticates the user using biometric authentication.
+    * - Abstract: Now, we’ll add our authenticate function. This function will
+    *             have a result builder that will take a boolean success case or
+    *             LAError, which Swift provides us. Thus, we can use every case
+    *             Apple gives us as an error. You don’t have to manipulate every
+    *             case, but knowing which suits Apple may throw is crucial.
+    * - Description: This function attempts to authenticate the user using
+    *                biometric methods such as Face ID or Touch ID. It uses a
+    *                result builder to handle the success or failure of the
+    *                authentication attempt. The function leverages the LAError
+    *                provided by Swift to handle various error cases that may
+    *                occur during the authentication process.
     * - Parameter completion: A closure that is called when the biometric authentication is complete, indicating whether the authentication was successful or not.
     */
    public func authenticate(completion: @escaping OnComplete) {

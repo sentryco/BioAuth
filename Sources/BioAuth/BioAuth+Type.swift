@@ -1,13 +1,14 @@
 import Foundation
 import LocalAuthentication
-//import Logger
 /**
  * Type aliases used for biometric authentication
  */
 extension BioAuth {
    /**
     * The type signature for the payload returned by biometric authentication
-    * - Description: Represents the data returned upon successful biometric authentication, containing a message and the LAContext used for authentication.
+    * - Description: Represents the data returned upon successful biometric
+    *                authentication, containing a message and the LAContext used
+    *                for authentication.
     * - Fixme: ⚠️️ Potentially add a title and description tuple to the result in the future?
     * - Fixme: ⚠️️ make this a struct?
     */
@@ -17,12 +18,22 @@ extension BioAuth {
    )
    /**
     * New
-    * - Description: Represents the outcome of a biometric authentication attempt. It can either hold a successful payload containing a message and the LAContext used for authentication, or an error indicating the failure reason encapsulated in a `BioAuthError`.
+    * - Description: Represents the outcome of a biometric authentication
+    *                attempt. It can either hold a successful payload containing
+    *                a message and the LAContext used for authentication, or an
+    *                error indicating the failure reason encapsulated in a
+    *                `BioAuthError`.
     */
    public typealias ResultType = Result<BAPayload, BioAuthError>
    /**
     * The type signature for the completion handler used in biometric authentication
-    * - Description: This is a type alias for the completion handler used in biometric authentication. It takes a `ResultType` as an argument, which represents the outcome of a biometric authentication attempt. The `ResultType` can either hold a successful payload containing a message and the LAContext used for authentication, or an error indicating the failure reason encapsulated in a `BioAuthError`.
+    * - Description: This is a type alias for the completion handler used in
+    *                biometric authentication. It takes a `ResultType` as an
+    *                argument, which represents the outcome of a biometric
+    *                authentication attempt. The `ResultType` can either hold a
+    *                successful payload containing a message and the LAContext
+    *                used for authentication, or an error indicating the failure
+    *                reason encapsulated in a `BioAuthError`.
     */
    public typealias Complete = (ResultType) -> Void
 }

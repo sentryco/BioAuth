@@ -2,7 +2,9 @@ import Foundation
 import LocalAuthentication
 /**
  * - Abstract: handles BioAuth state
- * - Description: The AuthController class is responsible for managing the biometric authentication process, providing a centralized point of control for initiating and handling authentication events within the application.
+ * - Description: The AuthController class is responsible for managing the
+                  biometric authentication process, providing a centralized point of control
+                  for initiating and handling authentication events within the application.
  * - Important: We keep this in a module so that the app and af extension can use it.
  * - Note Used in BioAuthView+Handler
  * - Note: ref: https://betterprogramming.pub/how-to-implement-faceid-or-touchid-in-ios-f3837cc2ff01
@@ -15,14 +17,19 @@ import LocalAuthentication
 public class AuthController { /*: ObservableObject */
    /**
     * Singleton
-    * - Description: The `shared` static property provides a globally accessible instance of `AuthController`, ensuring that only one instance of the class is used throughout the application. This singleton pattern is used to coordinate actions that need a single, shared resource, such as biometric authentication management.
+    * - Description: The `shared` static property provides a globally accessible
+    *                instance of `AuthController`, ensuring that only one instance of the class
+    *                is used throughout the application. This singleton pattern is used to
+    *                coordinate actions that need a single, shared resource, such as biometric
+    *                authentication management.
     * - Note: Was observable-object, but we moved to singleton instead
     * - Fixme: ⚠️️ We could also make this an envirotment variable maybe? do some exploration?
     */
    public static let shared: AuthController = .init()
    /**
     * Initializes a new instance of the AuthController.
-    * - Description: This initializer sets up a new instance of the AuthController, which handles biometric authentication state.
+    * - Description: This initializer sets up a new instance of the
+    *                AuthController, which handles biometric authentication state.
     * - Fixme: ⚠️️ Rename to authContext?
     */
    internal var _context: LAContext? = .init()

@@ -1,17 +1,22 @@
 import Foundation
 /**
  * Used as errors in the completion block when calling the `initBioAuth` method
- * - Description: Enumerates the various errors that can occur during the biometric authentication process. Each case provides a specific type of error that can be used to identify what went wrong during authentication.
+ * - Description: Enumerates the various errors that can occur during the
+ *                biometric authentication process. Each case provides a
+ *                specific type of error that can be used to identify what
+ *                went wrong during authentication.
  */
 public enum BioAuthError: Error {
    /**
     * Access to biometric authentication not given
-    * - Parameter reason: A string describing the reason why access to biometric authentication was not given.
+    * - Parameter reason: A string describing the reason why access to
+    *                     biometric authentication was not given.
     */
    case authAccessFailed(reason: String)
    /**
     * Biometric authentication failed
-    * - Parameter reason: A string describing the reason why biometric authentication failed.
+    * - Parameter reason: A string describing the reason why biometric
+    *                     authentication failed.
     */
    case authFailed(reason: String)
 }

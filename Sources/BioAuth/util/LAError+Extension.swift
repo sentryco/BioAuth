@@ -4,7 +4,11 @@ import LocalAuthentication
 extension LAError {
    /**
     * Improves the error description for a given error code
-    * - Description: This function takes an error code as input and returns a human-readable error message corresponding to that error code. The error code is expected to be one of the LAError codes. If the error code is nil or not a valid LAError code, it returns a default "Unknown error" message.
+    * - Description: This function takes an error code as input and returns a
+    *                human-readable error message corresponding to that error
+    *                code. The error code is expected to be one of the
+    *                LAError codes. If the error code is nil or not a valid
+    *                LAError code, it returns a default "Unknown error" message.
     * - Fixme: ⚠️️ Specialize error message by adding `bio-auth` type in parameter
     * - Parameter errorCode: The error code from the operating system
     * - Returns: The error message for the given error code
@@ -20,7 +24,10 @@ extension LAError {
    }
    /**
     * Returns a human-readable error message for the LAError.
-    * - Description: This property provides a human-readable error message for the LAError. It uses the error code to determine the appropriate message, making it easier to understand the nature of the error.
+    * - Description: This property provides a human-readable error message for
+    *                the LAError. It uses the error code to determine the
+    *                appropriate message, making it easier to understand the
+    *                nature of the error.
     * - Returns: A human-readable error message for the LAError.
     * - Example: "Biometry is locked out." or "Biometry is not available on this device."
     */
@@ -35,7 +42,10 @@ extension LAError {
 extension LAError.Code {
    /**
     * Returns a human-readable error message for the LAError.
-    * - Description: This property provides a human-readable error message for the LAError.Code. It uses the error code to determine the appropriate message, making it easier to understand the nature of the error.
+    * - Description: This property provides a human-readable error message for
+    *                the LAError.Code. It uses the error code to determine the
+    *                appropriate message, making it easier to understand the
+    *                nature of the error.
     * - Returns: A human-readable error message for the LAError.
     * - Example: "Biometry is locked out." or "Biometry is not available on this device."
     */

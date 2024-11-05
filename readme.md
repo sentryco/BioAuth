@@ -7,13 +7,10 @@
 
 ## Description
 
-BioAuth is a Swift library that provides a simple and easy-to-use interface for biometric authentication on iOS devices. It supports both Face ID and Touch ID, and provides a unified API for both methods. 
-
-BioAuth provides a static context for `LAContext` and a method to initiate the biometric authentication process. It also includes utility methods to determine if biometric authentication is available and accessible on the device. 
-
-The library uses the modern `Result` type for better error handling and includes descriptive error messages for better debugging. It also provides a way to retrieve available BioAuth types, including `touch`, `face`, and `none`.
-
-BioAuth is designed to be easy to integrate into any project that requires biometric authentication. It is also designed with security in mind, and includes features such as the ability to invalidate the context when the app is closed or goes into the background, and a timer to invalidate the context after a period of inactivity.
+- BioAuth is a Swift library that provides a simple and easy-to-use interface for biometric authentication on iOS devices. It supports both Face ID and Touch ID, and provides a unified API for both methods. 
+- BioAuth provides a static context for `LAContext` and a method to initiate the biometric authentication process. It also includes utility methods to determine if biometric authentication is available and accessible on the device. 
+- The library uses the modern `Result` type for better error handling and includes descriptive error messages for better debugging. It also provides a way to retrieve available BioAuth types, including `touch`, `face`, and `none`.
+- BioAuth is designed to be easy to integrate into any project that requires biometric authentication. It is also designed with security in mind, and includes features such as the ability to invalidate the context when the app is closed or goes into the background, and a timer to invalidate the context after a period of inactivity.
 
 
 ### Features

@@ -142,11 +142,13 @@ extension AuthController {
                case .notInteractive:
                   // Displaying the required authentication user interface is forbidden.
                   completion(.failure(err))
+               #if os(macOS)
                case .watchNotAvailable:
                   // An attempt to authenticate with Apple Watch failed.
                   completion(.failure(err))
                   // case .touchIDNotAvailable,touchIDNotEnrolled,touchIDLockout:
                   // - Fixme: ⚠️️ : Apple shows those errors altaught they're de-precated in iOS 11
+               #endif
                default:
                   completion(.failure(err))
                }

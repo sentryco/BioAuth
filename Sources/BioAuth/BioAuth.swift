@@ -27,7 +27,7 @@ extension BioAuth {
     * - Fixme: ⚠️️ Consider making this lazy and a singleton
     * - Fixme: ⚠️️⚠️️⚠️️ We should probably call `context.invalidate()` when the app is closed or goes into the background, and use a timer to invalidate the context after a period of inactivity.
     */
-   public static var context: LAContext?
+   nonisolated(unsafe) public static var context: LAContext?
    /**
     * Starts biometric authentication.
     * - Description: This method initializes the biometric authentication process
@@ -44,6 +44,7 @@ extension BioAuth {
     * - Parameter complete: The completion handler with a payload as the result type
     * - Fixme: ⚠️️ Add info regarding the different eval parameters and their purpose
     */
+   @MainActor // ⚠️️ required or else compiler shows error. also this should only be on mainthread
    public static func initBioAuth(complete: @escaping Complete) {
       let context: LAContext = .init() // create a new instance of LAContext
       var authError: NSError? // declare an optional NSError variable to hold any authentication errors

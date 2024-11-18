@@ -1,11 +1,11 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.0
 import PackageDescription
 
 let package = Package(
     name: "BioAuth", // Defines the package name as BioAuth
     platforms: [
-        .macOS(.v14), // Specifies macOS 14 and later as a supported platform
-        .iOS(.v17) // Specifies iOS 17 and later as a supported platform
+        .macOS(.v15),
+        .iOS(.v18)
     ], // Lists the platforms supported by the package
     products: [
         .library(

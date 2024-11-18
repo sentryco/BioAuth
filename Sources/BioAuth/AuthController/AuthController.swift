@@ -25,7 +25,7 @@ public class AuthController { /*: ObservableObject */
     * - Note: Was observable-object, but we moved to singleton instead
     * - Fixme: ⚠️️ We could also make this an envirotment variable maybe? do some exploration?
     */
-   nonisolated(unsafe) public static let shared: AuthController = .init()
+   public static let shared: AuthController = .init()
    /**
     * Initializes a new instance of the AuthController.
     * - Description: This initializer sets up a new instance of the

@@ -29,7 +29,7 @@ extension BioAuth {
     * - Description: This is a constant string that represents the success
     *                message displayed to the user when biometric
     *                authentication is successful. This typically means that
-    *                the user has been authenticated using Face-ID or Touch-ID
+    *                the user has been authenticated using Face ID or Touch ID
     *                on their device.
     */
    static let successText: String = "User authenticated successfully"
@@ -41,9 +41,7 @@ extension BioAuth {
     *                successfully and includes the provided error string for
     *                additional context.
     */
-   nonisolated(unsafe) static let errorMsg: (_ errStr: String) -> String = {
-      { (errStr: String) in
-         "User did not authenticate successfully\n\(errStr)"
-      }
-   }()
+   static var errorMsg: (_ errStr: String) -> String = { (errStr: String) in
+      "User did not authenticate successfully\n\(errStr)"
+   }
 }

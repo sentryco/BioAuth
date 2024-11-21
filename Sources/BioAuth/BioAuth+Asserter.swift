@@ -20,7 +20,7 @@ extension BioAuth {
     *                providing a boolean result that indicates the availability
     *                of this authentication option.
     * - Note: Alternative name: `isBiometricsAvailable`
-    * - Fixme: ⚠️️ Add some more doc which context this is used in etc
+    * - Fixme: ⚠️️ add some more doc which context this is used in etc
     * - Fixme: ⚠️️ Make this a method that throws? `getAccessible`? So that we can prompt the user with an error message, etc? probably yes
     */
    public static var isAccessible: Bool {
@@ -55,7 +55,7 @@ extension BioAuth {
       // check if the device supports biometric or passcode authentication
       guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) else {
          // if not, log the error message
-         // Logger.warn("\(Trace.trace()) - Err: \(LAError.getErrorMessage(errorCode: (authError?._code)!))", tag: .security)
+         //Logger.warn("\(Trace.trace()) - Err: \(LAError.getErrorMessage(errorCode: (authError?._code)!))", tag: .security)
          return false // return false
       }
       return true // return true if biometric or passcode authentication is available

@@ -21,7 +21,6 @@ extension AuthController {
     * - Fixme: ⚠️️ Also return the error, so that we can give the user feedback regarding what is wrong etc
     * - Parameter complete: A closure that is called when the authentication process is complete, indicating success or failure.
     */
-   @MainActor // ⚠️️ required or else compiler shows error. also this should only be on mainthread
    public func permitAndAuth(complete: @escaping CompletionAlias) {
       // Swift.print("🧬 AuthController.permitAndAuth")
       guard self.askBiometricAvailability() else { /*(_ error: Error?) in*/
@@ -89,7 +88,6 @@ extension AuthController {
     *                occur during the authentication process.
     * - Parameter completion: A closure that is called when the biometric authentication is complete, indicating whether the authentication was successful or not.
     */
-   @MainActor // required or else compiler shows error. also this should only be on mainthread
    public func authenticate(completion: @escaping OnComplete) {
       // Swift.print("🧬 AuthController.authenticate()")
       guard let context: LAContext = self.context else {
@@ -99,7 +97,7 @@ extension AuthController {
          return
       }
       let reason: String = "Scan your face to log in."
-//      Task.detached { @MainActor in // main async? (eval policy is async)
+      Task.detached { @MainActor in // main async? (eval policy is async)
          context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
             if success {
                completion(.success(true))
@@ -144,18 +142,18 @@ extension AuthController {
                case .notInteractive:
                   // Displaying the required authentication user interface is forbidden.
                   completion(.failure(err))
-#if os(macOS)
+               #if os(macOS)
                case .watchNotAvailable:
                   // An attempt to authenticate with Apple Watch failed.
                   completion(.failure(err))
                   // case .touchIDNotAvailable,touchIDNotEnrolled,touchIDLockout:
                   // - Fixme: ⚠️️ : Apple shows those errors altaught they're de-precated in iOS 11
-#endif
+               #endif
                default:
                   completion(.failure(err))
                }
             }
          }
-//      }
+      }
    }
 }

@@ -90,7 +90,7 @@ extension AuthController {
     * - Parameter completion: A closure that is called when the biometric authentication is complete, indicating whether the authentication was successful or not.
     */
    public func authenticate(completion: /*@escaping */OnComplete?) {
-      // Swift.print("🧬 AuthController.authenticate()")
+      Swift.print("🧬 AuthController.authenticate() context: \(String(describing: self.context))")
       guard let context: LAContext = self.context else {
          let err = NSError(domain: "LAContext not available", code: 0)
          let error = LAError(_nsError: err)
@@ -98,7 +98,11 @@ extension AuthController {
          return
       }
       let reason: String = "Scan your face to log in."
-//      Task.detached { @MainActor in // main async? (eval policy is async)
+      // Task.detached { @MainActor in // main async? (eval policy is async)
+      
+      // }
+      DispatchQueue.main.async {
+         Swift.print("eval policy")
          context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
             if success {
                completion?(.success(true))
@@ -154,7 +158,7 @@ extension AuthController {
                   completion?(.failure(err))
                }
             }
-//         }
+         }
       }
    }
 }

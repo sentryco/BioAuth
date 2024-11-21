@@ -38,6 +38,9 @@ You can add BioAuth to your project via Swift Package Manager, which is integrat
 This will configure your project to use the `main` branch of the BioAuth library from the specified GitHub repository.
 
 ### Example (mac / iOS)
+
+There is also an ExampleApp xcodeproj with working example for iOS and macOS
+
 ```swift
 import BioAuth
 // Asserts if the device can use biometric authentication
@@ -76,5 +79,5 @@ BioAuth.initBioAuth { result in
 - The error handling in the LAError+Extension.swift file could be enhanced by providing more specific and user-friendly error messages, especially for biometric authentication errors. This could improve the user experience by making the errors more understandable.
 - Updating and Refining .swiftlint.yml The SwiftLint configuration file has several rules commented out. Reviewing and deciding on the necessary rules to enforce coding standards consistently across the project would help in maintaining code quality.
 - Add gotchas for common errors in the readme
-- Add example proj
+- Add debugview fenced debug only. We can test BioAuth in preview when target is macOS. iOS does not work. so fence for macos as well maybe?
 - remove unit-tests?

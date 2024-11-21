@@ -83,9 +83,6 @@ func notifyUser(_ msg: String, err: String? = nil) {
 - Some code regarding auto lock of database: https://github.com/mozilla-lockwise/lockwise-ios/blob/master/Shared/Common/Helpers/AutoLockSupport.swift
 - Obfuscate screen when app resigns active  https://github.com/mssun/passforios/blob/master/pass/AppDelegate.swift
 
-### License:
-This software is licensed under the MIT License. Please ensure to adhere to the licensing terms when using, modifying, or distributing this code.
-
 ### Todo: 
 - Re-name to "BiometryAuth"? or "Biometry"? or keep as is? keep as is, Apple might name something Biometry in the future and then you have an overlap issue etc 
 - Improve this package see: https://github.com/rushisangani/BiometricAuthentication
@@ -94,3 +91,4 @@ This software is licensed under the MIT License. Please ensure to adhere to the 
 - Remove unit tst, replace with uitests?
 - The error handling in the LAError+Extension.swift file could be enhanced by providing more specific and user-friendly error messages, especially for biometric authentication errors. This could improve the user experience by making the errors more understandable.
 - Updating and Refining .swiftlint.yml The SwiftLint configuration file has several rules commented out. Reviewing and deciding on the necessary rules to enforce coding standards consistently across the project would help in maintaining code quality.
+- Add gotchas for common errors in the readme

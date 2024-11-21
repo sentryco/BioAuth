@@ -22,7 +22,7 @@ extension AuthController {
     * - Parameter complete: A closure that is called when the authentication process is complete, indicating success or failure.
     */
    public func permitAndAuth(complete: /*@escaping */CompletionAlias?) {
-      // Swift.print("🧬 AuthController.permitAndAuth")
+      Swift.print("🧬 AuthController.permitAndAuth")
       guard self.askBiometricAvailability() else { /*(_ error: Error?) in*/
          complete?(false) // Calls the completion handler with a false value indicating authentication failed
          return // Exits the function early
@@ -54,7 +54,7 @@ extension AuthController {
     */
    @discardableResult
    public func askBiometricAvailability() -> Bool { /*completion: @escaping (Error?) -> Void*/
-      // Swift.print("🧬 AuthController.askBiometricAvailability")
+      Swift.print("🧬 AuthController.askBiometricAvailability")
       if let context: LAContext = self.context { // Checks if the LAContext instance is available
          var error: NSError? // Initializes an optional NSError variable to handle potential errors
          if context.canEvaluatePolicy( // Evaluates the policy for biometric authentication
@@ -97,68 +97,86 @@ extension AuthController {
          completion?(.failure(error))
          return
       }
-      let reason: String = "Scan your face to log in."
-      // Task.detached { @MainActor in // main async? (eval policy is async)
-      
-      // }
-      DispatchQueue.main.async {
-         Swift.print("eval policy")
-         context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
-            if success {
-               completion?(.success(true))
-            } else if let err = error as? LAError {
-               switch err.code {
-               case .authenticationFailed:
-                  completion?(.failure(err))
-                  // The user failed to provide valid credentials.
-               case .userCancel:
-                  completion?(.failure(err))
-                  // The user tapped the cancel button in the authentication dialog.
-               case .userFallback:
-                  completion?(.failure(err))
-                  // The user tapped the fallback button in the authentication dialog, but no fallback is available for the authentication policy.
-               case .systemCancel:
-                  completion?(.failure(err))
-                  // The system canceled authentication.
-               case .passcodeNotSet:
-                  completion?(.failure(err))
-                  // A passcode isn’t set on the device.
-               case .biometryNotAvailable:
-                  completion?(.failure(err))
-                  // Biometry is not available on the device.
-               case .biometryNotPaired:
-                  completion?(.failure(err))
-                  // The device supports biometry only using a removable accessory, but no accessory is paired.
-               case .biometryDisconnected:
-                  // The device supports biometry only using a removable accessory, but the paired accessory isn’t connected.
-                  completion?(.failure(err))
-               case .biometryLockout:
-                  completion?(.failure(err))
-                  // Biometry is locked because there were too many failed attempts.
-               case .biometryNotEnrolled:
-                  // The user has no enrolled biometric identities.
-                  completion?(.failure(err))
-               case .appCancel:
-                  // The app canceled authentication.
-                  completion?(.failure(err))
-               case .invalidContext:
-                  // The context was previously invalidated.
-                  completion?(.failure(err))
-               case .notInteractive:
-                  // Displaying the required authentication user interface is forbidden.
-                  completion?(.failure(err))
-               #if os(macOS)
-               case .watchNotAvailable:
-                  // An attempt to authenticate with Apple Watch failed.
-                  completion?(.failure(err))
-                  // case .touchIDNotAvailable,touchIDNotEnrolled,touchIDLockout:
-                  // - Fixme: ⚠️️ : Apple shows those errors altaught they're de-precated in iOS 11
-               #endif
-               default:
-                  completion?(.failure(err))
-               }
-            }
-         }
+      canEval(context: context, completion: completion)
+   }
+   /**
+    * - Fixme: ⚠️️ add doc
+    */
+   fileprivate func canEval(context: LAContext, completion: /*@escaping */OnComplete?) {
+      Swift.print("canEval")
+      var error: NSError?
+      if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+         performEval(context: context, completion: completion)
+      } else {
+         print(error?.localizedDescription ?? "Cannot evaluate policy")
       }
+   }
+   /**
+    * - Fixme: ⚠️️ add doc
+    */
+   fileprivate func performEval(context: LAContext, completion: /*@escaping */OnComplete?) {
+      Swift.print("performEval")
+      let reason: String = "Scan your face to log in."
+      //DispatchQueue.main.async {
+      //}
+       Task.detached { @MainActor in // main async? (eval policy is async)
+          Swift.print("eval policy")
+          context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+             if success {
+                completion?(.success(true))
+             } else if let err = error as? LAError {
+                switch err.code {
+                case .authenticationFailed:
+                   completion?(.failure(err))
+                   // The user failed to provide valid credentials.
+                case .userCancel:
+                   completion?(.failure(err))
+                   // The user tapped the cancel button in the authentication dialog.
+                case .userFallback:
+                   completion?(.failure(err))
+                   // The user tapped the fallback button in the authentication dialog, but no fallback is available for the authentication policy.
+                case .systemCancel:
+                   completion?(.failure(err))
+                   // The system canceled authentication.
+                case .passcodeNotSet:
+                   completion?(.failure(err))
+                   // A passcode isn’t set on the device.
+                case .biometryNotAvailable:
+                   completion?(.failure(err))
+                   // Biometry is not available on the device.
+                case .biometryNotPaired:
+                   completion?(.failure(err))
+                   // The device supports biometry only using a removable accessory, but no accessory is paired.
+                case .biometryDisconnected:
+                   // The device supports biometry only using a removable accessory, but the paired accessory isn’t connected.
+                   completion?(.failure(err))
+                case .biometryLockout:
+                   completion?(.failure(err))
+                   // Biometry is locked because there were too many failed attempts.
+                case .biometryNotEnrolled:
+                   // The user has no enrolled biometric identities.
+                   completion?(.failure(err))
+                case .appCancel:
+                   // The app canceled authentication.
+                   completion?(.failure(err))
+                case .invalidContext:
+                   // The context was previously invalidated.
+                   completion?(.failure(err))
+                case .notInteractive:
+                   // Displaying the required authentication user interface is forbidden.
+                   completion?(.failure(err))
+                #if os(macOS)
+                case .watchNotAvailable:
+                   // An attempt to authenticate with Apple Watch failed.
+                   completion?(.failure(err))
+                   // case .touchIDNotAvailable,touchIDNotEnrolled,touchIDLockout:
+                   // - Fixme: ⚠️️ : Apple shows those errors altaught they're de-precated in iOS 11
+                #endif
+                default:
+                   completion?(.failure(err))
+                }
+             }
+          }
+       }
    }
 }

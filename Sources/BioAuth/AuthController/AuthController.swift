@@ -6,13 +6,14 @@ import LocalAuthentication
                   biometric authentication process, providing a centralized point of control
                   for initiating and handling authentication events within the application.
  * - Important: We keep this in a module so that the app and af extension can use it.
- * - Note Used in BioAuthView+Handler
+ * - Note Used in `BioAuthView+Handler
  * - Note: ref: https://betterprogramming.pub/how-to-implement-faceid-or-touchid-in-ios-f3837cc2ff01
  * - Note: simpler solution: https://www.andyibanez.com/posts/integrating-face-id-touch-id-swiftui/
  * - Note: and https://www.devtechie.com/community/public/posts/145824-user-authentication-with-face-id-touch-id-in-swiftui
  * - Important: ⚠️️ Using this requires setting info.plist: `NSFaceIDUsageDescription`
  * - Note: Alternative name: `BioAuthController` ask copilot to suggest better names?
- * - Fixme: ⚠️️⚠️️ Add it to BioAuth repo? 👈 deprecate old BioAuth etc?
+ * - Fixme: ⚠️️⚠️️ deprecate old BioAuth etc?
+ * - Fixme: ⚠️️ merge this and bioAuth. they are essentially the same
  */
 public class AuthController { /*: ObservableObject */
    /**

@@ -43,6 +43,8 @@ extension BioAuth {
     * - Note: Alterntive names: `auth..` or `engage..`? or `doBioAuth..`
     * - Parameter complete: The completion handler with a payload as the result type
     * - Fixme: ⚠️️ Add info regarding the different eval parameters and their purpose
+    * - Fixme: ⚠️️ make complete optional instead of escaping? check with copilot regarding pros and cons?
+    * - Fixme: ⚠️️ add LAPolicy as a param ?
     */
    public static func initBioAuth(complete: @escaping Complete) {
       let context: LAContext = .init() // create a new instance of LAContext
@@ -57,7 +59,7 @@ extension BioAuth {
             .deviceOwnerAuthenticationWithBiometrics, // The policy to evaluate for biometric authentication
             localizedReason: BioAuth.myLocalizedReasonString // The localized reason for the authentication prompt
          ) { (success: Bool, evaluateError: Error?) in // if biometric authentication is supported, evaluate the policy
-         DispatchQueue.main.async {
+         DispatchQueue.main.async { // - Fixme: ⚠️️ add not regarding ehy this is needed?
             if success { // if authentication is successful
                complete(.success((successText, context))) // notify the user that authentication succeeded
             } else { // if authentication fails

@@ -12,11 +12,20 @@
 - The library uses the modern `Result` type for better error handling and includes descriptive error messages for better debugging. It also provides a way to retrieve available BioAuth types, including `touch`, `face`, and `none`.
 - BioAuth is designed to be easy to integrate into any project that requires biometric authentication. It is also designed with security in mind, and includes features such as the ability to invalidate the context when the app is closed or goes into the background, and a timer to invalidate the context after a period of inactivity.
 
-
 ### Features
 - Provides a way to retrieve available BioAuth types, including `touch`, `face`, and `none`
 - Includes descriptive error messages for better debugging
 - Uses the modern `Result` type for better error handling
+
+### Prerequisites:
+- Add `Privacy - Face ID Usage Description` to `This app uses Face ID to confirm your identity`
+Raw infoplist: 
+```xml
+<key>NSFaceIDUsageDescription</key> 
+<string>This app uses Face ID to confirm your identity</string> 
+```
+- Ensure simulator has Biometry enrolled.
+- Use Match face to debug Biometry authentication 
 
 ### Installation via Swift Package Manager (SPM)
 
@@ -28,51 +37,26 @@ You can add BioAuth to your project via Swift Package Manager, which is integrat
 
 This will configure your project to use the `main` branch of the BioAuth library from the specified GitHub repository.
 
-### Examples:
+### Example (mac / iOS)
 ```swift
-BioAuthType.type // .face
-
-// Initialize BioAuth and handle the result using the `Result` type
-BioAuth.initBioAuth { [weak self] result in
+import BioAuth
+// Asserts if the device can use biometric authentication
+print(BioAuth.isAccessible) // true false
+// Returns the name of biometric authentication method
+print(BioAuthType.type) // .face
+// Starts biometric authentication
+BioAuth.initBioAuth { result in
    switch result {
-   case .success(let desc): notifyUser(desc) // If the result is successful, notify the user with the description
-   case .failure(let error): notifyUser("Error", error.localizedDescription) // If the result is a failure, notify the user with the error message
-   }
-}
-
-// Define a function to notify the user with an alert
-func notifyUser(_ msg: String, err: String?) {
-   let alert = UIAlertController(title: msg, message: err, preferredStyle: .alert) // Create a new alert controller with the given title, message, and style
-   let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil) // Create a new cancel action with the given title and style, and set the handler to `nil`
-   alert.addAction(cancelAction) // Add the cancel action to the alert controller
-   self.present(alert, animated: true, completion: nil) // Present the alert controller with animation and no completion handler
-}
-```
-
-### Example (mac)
-```swift
-BioAuth.initBioAuth { [weak self] result in
-   switch result {
-   case .success(let desc): self?.notifyUser(desc.msg)
+   case .success(let desc): print(desc.msg)
    // - Fixme: ⚠️️ might need to cast error as BioAuthError to get correct localizedDescription
-   case .failure(let error): self?.notifyUser("Error", err: error.localizedDescription)
-   }
-}
-func notifyUser(_ msg: String, err: String? = nil) {
-   let alert = NSAlert() // Create a new `NSAlert` instance
-   alert.messageText = "Biometric authentication" // Set the message text of the alert to "Biometric authentication"
-   alert.informativeText = msg // Set the informative text of the alert to the given message
-   alert.alertStyle = .warning // Set the alert style to `.warning`
-   alert.addButton(withTitle: "OK") // Add an "OK" button to the alert
-   alert.addButton(withTitle: "Cancel") // Add a "Cancel" button to the alert
-   let res = alert.runModal() // Run the alert modally and get the result
-   if res == .alertFirstButtonReturn { // If the user clicked the "OK" button, print "ok"
-      Swift.print("ok")
-   } else if res == .alertSecondButtonReturn { // If the user clicked the "Cancel" button, print "cancel"
-      Swift.print("cancel")
+   case .failure(let error): print(error.localizedDescription)
    }
 }
 ```
+
+### Gotchas:
+- To debug threading issues: Consider using `Thread Sanitizer in Xcode`
+- The first time a user uses your app with Biometry. There will be a popup asking to allow face-id or touch id
 
 ### Resources:
 - http://michael-brown.net/2018/touch-id-and-face-id-on-ios/
@@ -92,3 +76,5 @@ func notifyUser(_ msg: String, err: String? = nil) {
 - The error handling in the LAError+Extension.swift file could be enhanced by providing more specific and user-friendly error messages, especially for biometric authentication errors. This could improve the user experience by making the errors more understandable.
 - Updating and Refining .swiftlint.yml The SwiftLint configuration file has several rules commented out. Reviewing and deciding on the necessary rules to enforce coding standards consistently across the project would help in maintaining code quality.
 - Add gotchas for common errors in the readme
+- Add example proj
+- remove unit-tests?

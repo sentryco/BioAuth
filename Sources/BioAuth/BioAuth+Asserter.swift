@@ -22,6 +22,7 @@ extension BioAuth {
     * - Note: Alternative name: `isBiometricsAvailable`
     * - Fixme: ⚠️️ add some more doc which context this is used in etc
     * - Fixme: ⚠️️ Make this a method that throws? `getAccessible`? So that we can prompt the user with an error message, etc? probably yes
+    * - Fixme: ⚠️️ add example in doc
     */
    public static var isAccessible: Bool {
       //Logger.info("\(Trace.trace())") // Log that the function has been called
@@ -48,6 +49,7 @@ extension BioAuth {
     *                of these authentication options.
     * - Note: Alternative name: `isBiometricOrPasscodeAuthenticationAvailable`
     * - Fixme: ⚠️️ add some more doc which context this is used in etc
+    * - Fixme: ⚠️️ Maybe merge isAccessible and isAuthAvailable. and just pass LAPolacy as a param?
     */
    public var isAuthAvailable: Bool {
       guard let context: LAContext = Self.context else { /*Logger.warn("\(Trace.trace()) - context not accessible", tag: .security);*/ return false } // check if the context is accessible

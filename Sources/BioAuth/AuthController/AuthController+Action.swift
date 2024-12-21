@@ -110,11 +110,13 @@ extension AuthController {
       canEval(context: context, completion: completion)
    }
    /**
-    * - Fixme: ⚠️️ add doc
+    * Evaluates if biometric authentication can be performed with the given context
+    * - Description: This function checks if the device supports and is configured for biometric authentication using the provided LAContext.
+    *                If biometric authentication is available, it proceeds to perform the authentication. Otherwise, it logs an error message.
     * - Fixme: ⚠️️ add LAPolacy as param
     * - Parameters:
-    *   - context: - Fixme: ⚠️️ add doc
-    *   - completion: - Fixme: ⚠️️ add doc
+    *   - context: The LAContext instance used for performing biometric authentication
+    *   - completion: A closure that is called when authentication completes, with a Result indicating success or failure
     */
    fileprivate func canEval(context: LAContext, completion: /*@escaping */OnComplete?) {
 //      Swift.print("canEval")
@@ -126,11 +128,15 @@ extension AuthController {
       }
    }
    /**
-    * - Fixme: ⚠️️ add doc
+    * Performs biometric authentication evaluation using the provided context
+    * - Description: This function initiates the actual biometric authentication process using the LAContext.
+    *                It displays a prompt to the user requesting biometric verification and handles the result
+    *                through a completion handler. The function processes various authentication outcomes,
+    *                including success and different types of failures (e.g., user cancellation, system errors).
     * - Fixme: ⚠️️ add LAPolacy as param
     * - Parameters:
-    *   - context: - Fixme: ⚠️️ add doc
-    *   - completion: - Fixme: ⚠️️ add doc
+    *   - context: The LAContext instance used to perform the biometric authentication evaluation
+    *   - completion: A closure that is called when authentication completes, with a Result indicating success or failure
     */
    fileprivate func performEval(context: LAContext, completion: /*@escaping */OnComplete?) {
 //      Swift.print("performEval")

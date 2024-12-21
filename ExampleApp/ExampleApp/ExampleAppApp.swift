@@ -40,8 +40,8 @@ struct ExampleAppApp: App {
 }
 extension ExampleAppApp {
    /**
-    * - Fixme: ⚠️️ add doc
-    * - Parameter result: - Fixme: ⚠️️ add doc
+    * Handles the result of the biometric authentication process.
+    * - Parameter result: The result of the biometric authentication, which can be either a success with a description or a failure with an error.
     */
    func handleBioAuthResult(result: BioAuth.ResultType) {
       switch result { // Trigger the alert

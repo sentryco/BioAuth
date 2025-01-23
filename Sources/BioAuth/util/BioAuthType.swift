@@ -52,7 +52,7 @@ extension BioAuthType {
          switch authContext.biometryType {
          case .touchID: return .touch // If the biometric type is Touch ID, return .touch
          case .faceID: return .face // If the biometric type is Face ID, return .face
-         default: return .none // If the biometric type is not recognized, return .none
+         @unknown default: return .none // If the biometric type is not recognized, return .none
          }
       } else {
          return .touch

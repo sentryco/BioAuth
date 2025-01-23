@@ -39,6 +39,18 @@ extension BioAuth {
       }
       return true // Return true if biometric authentication is available
    }
+   // new ⚠️️ prefer this over isAccissible
+   // fixme: add proper error handling and user feedback when biometric authentication is not available.
+   // This allows the calling code to handle the error appropriately.
+   public static func checkAccessibility() throws {
+          guard let context = Self.context else {
+              throw BioAuthError.contextUnavailable
+          }
+          var authError: NSError?
+          if !context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+              throw BioAuthError.biometryUnavailable(reason: authError?.localizedDescription ?? "Unknown error")
+          }
+      }
    /**
     * Asserts if the device can use biometric authentication or passcode authentication.
     * - Description: This method checks if the device supports biometric

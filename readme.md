@@ -1,5 +1,9 @@
 [![codebeat badge](https://codebeat.co/badges/edbf8e35-99f3-45ee-861d-5d3c995b80c8)](https://codebeat.co/projects/github-com-passbook-bioauth-master)
 [![Tests](https://github.com/sentryco/BioAuth/actions/workflows/Tests.yml/badge.svg)](https://github.com/sentryco/BioAuth/actions/workflows/Tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
+[![SPM Compatible](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
+[![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20macOS-blue.svg)]()
 
 # BioAuth 🧬
 
@@ -7,15 +11,19 @@
 
 ## Description
 
-- BioAuth is a Swift library that provides a simple and easy-to-use interface for biometric authentication on iOS devices. It supports both Face ID and Touch ID, and provides a unified API for both methods. 
-- BioAuth provides a static context for `LAContext` and a method to initiate the biometric authentication process. It also includes utility methods to determine if biometric authentication is available and accessible on the device. 
-- The library uses the modern `Result` type for better error handling and includes descriptive error messages for better debugging. It also provides a way to retrieve available BioAuth types, including `touch`, `face`, and `none`.
-- BioAuth is designed to be easy to integrate into any project that requires biometric authentication. It is also designed with security in mind, and includes features such as the ability to invalidate the context when the app is closed or goes into the background, and a timer to invalidate the context after a period of inactivity.
+- BioAuth is a Swift library that provides a simple and easy-to-use interface for biometric authentication on **iOS and macOS** devices. It supports both Face ID and Touch ID, and provides a unified API for both methods.
+- BioAuth includes utility methods to determine if biometric authentication is available and accessible on the device.
+- The library uses the modern `Result` type for better error handling and includes descriptive error messages for improved debugging.
+- Designed with security in mind, BioAuth features context invalidation when the app is closed or goes into the background, and a timer to invalidate the context after a period of inactivity.
 
 ### Features
-- Provides a way to retrieve available BioAuth types, including `touch`, `face`, and `none`
-- Includes descriptive error messages for better debugging
-- Uses the modern `Result` type for better error handling
+
+- **Cross-Platform Support**: Works seamlessly on both iOS and macOS devices.
+- **Unified Biometric Types**: Retrieve available authentication types (`touch`, `face`, and `none`).
+- **Singleton `AuthController`**: Centralized management of biometric authentication state.
+- **Automatic Context Invalidation**: Security feature that invalidates the context when the app enters the background or after a period of inactivity.
+- **Descriptive Error Messages**: Provides detailed error information for easier debugging.
+- **Modern Error Handling**: Utilizes Swift's `Result` type for efficient error management.
 
 ### Prerequisites:
 - Add `Privacy - Face ID Usage Description` to `This app uses Face ID to confirm your identity`
@@ -57,9 +65,34 @@ BioAuth.initBioAuth { result in
 }
 ```
 
-### Gotchas:
-- To debug threading issues: Consider using `Thread Sanitizer in Xcode`
-- The first time a user uses your app with Biometry. There will be a popup asking to allow face-id or touch id
+**AuthController**
+
+```swift
+import BioAuth
+
+// Check if the device can use biometric authentication
+print(BioAuth.isAccessible) // true or false
+
+// Get the available biometric authentication type
+print(BioAuthType.type) // .face, .touch, or .none
+
+// Start biometric authentication using AuthController
+AuthController.shared.permitAndAuth { success in
+    if success {
+        print("User authenticated successfully")
+    } else {
+        print("Authentication failed")
+    }
+}
+```
+
+### Troubleshooting
+
+- **Simulator Issues**: Ensure your simulator has biometric features enabled. In the simulator, go to **Features > Face ID** or **Features > Touch ID** and select **Enrolled**. Use **Matching Face** or **Matching Fingerprint** to simulate successful authentication.
+- **First-Time Authentication**: When the user attempts biometric authentication for the first time, a system prompt will ask for permission. Make sure to handle this scenario appropriately in your app.
+- **Biometry Not Enrolled**: If authentication fails with a `LAError.biometryNotEnrolled`, the user needs to enroll Face ID or Touch ID on their device.
+- **Passcode Not Set**: If biometric authentication is unavailable due to the device not having a passcode set, prompt the user to enable it in their device settings.
+- **Threading Issues**: To debug threading-related problems, consider using the **Thread Sanitizer** in Xcode.
 
 ### Resources:
 - http://michael-brown.net/2018/touch-id-and-face-id-on-ios/
@@ -81,3 +114,4 @@ BioAuth.initBioAuth { result in
 - Add gotchas for common errors in the readme
 - Add debugview fenced debug only. We can test BioAuth in preview when target is macOS. iOS does not work. so fence for macos as well maybe?
 - remove unit-tests?
+- Split this lib into two. Or merge to one

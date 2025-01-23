@@ -127,6 +127,25 @@ extension AuthController {
          print(error?.localizedDescription ?? "Cannot evaluate policy")
       }
    }
+   // suggested by o1 ⚠️️
+   // fixme: prefer using this instead
+   // Handle LAContext Lifecycle Appropriately
+   // It's important to manage the lifecycle of LAContext correctly to prevent unexpected behavior.
+   // Suggestion: Invalidate the context upon failed authentication attempts or when it's no longer needed.
+   fileprivate func performEval2(context: LAContext, completion: OnComplete?) {
+         context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+            DispatchQueue.main.async {
+               if success {
+                     completion?(.success(true))
+               } else {
+                     context.invalidate() // Invalidate the context on failure
+                     if let err = error as? LAError {
+                        completion?(.failure(err))
+                     }
+               }
+            }
+         }
+   }
    /**
     * Performs biometric authentication evaluation using the provided context
     * - Description: This function initiates the actual biometric authentication process using the LAContext.
@@ -190,19 +209,18 @@ extension AuthController {
                    case .notInteractive:
                       // Displaying the required authentication user interface is forbidden.
                       completion?(.failure(err))
-#if os(macOS)
+                     #if os(macOS)
                    case .watchNotAvailable:
                       // An attempt to authenticate with Apple Watch failed.
                       completion?(.failure(err))
                       // case .touchIDNotAvailable,touchIDNotEnrolled,touchIDLockout:
                       // - Fixme: ⚠️️ : Apple shows those errors altaught they're de-precated in iOS 11
-#endif
+                     #endif
                    default:
                       completion?(.failure(err))
                    }
                 }
              }
-             
           }
 //       }
    }

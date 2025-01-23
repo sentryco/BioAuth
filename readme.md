@@ -86,6 +86,48 @@ AuthController.shared.permitAndAuth { success in
 }
 ```
 
+**Trigger auth via button**
+
+```swift
+import SwiftUI
+import BioAuth
+
+struct ContentView: View {
+      @State private var isAuthenticated = false
+
+      var body: some View {
+         VStack {
+            if isAuthenticated {
+                  Text("Welcome!")
+            } else {
+                  Button("Authenticate") {
+                     AuthController.shared.authenticate { success in
+                        isAuthenticated = success
+                     }
+                  }
+            }
+         }
+      }
+}
+```
+ 
+> [!IMPORTANT]
+> **Security Best Practices Review**  
+> Conduct a security review of your code to ensure it follows best practices, especially since it deals with sensitive authentication data.
+> 
+> - Ensure `LAContext` instances are invalidated appropriately.
+> - Avoid storing sensitive data in memory longer than necessary.
+> - Keep up-to-date with the latest security advisories from Apple
+ 
+### Common Errors and Solutions
+
+- **Error Domain=LAErrorDomain Code=-5 "Authentication failed"**  
+   This error occurs when the user fails to authenticate successfully. Ensure the correct biometric data is being used.
+
+- **Error Domain=LAErrorDomain Code=-6 "User canceled"**  
+   The user canceled the authentication prompt. Prompt the user again or handle the cancellation gracefully.
+
+
 ### Troubleshooting
 
 - **Simulator Issues**: Ensure your simulator has biometric features enabled. In the simulator, go to **Features > Face ID** or **Features > Touch ID** and select **Enrolled**. Use **Matching Face** or **Matching Fingerprint** to simulate successful authentication.
@@ -104,6 +146,7 @@ AuthController.shared.permitAndAuth { success in
 - Obfuscate screen when app resigns active  https://github.com/mssun/passforios/blob/master/pass/AppDelegate.swift
 
 ### Todo: 
+- Add codecov.io
 - Re-name to "BiometryAuth"? or "Biometry"? or keep as is? keep as is, Apple might name something Biometry in the future and then you have an overlap issue etc 
 - Improve this package see: https://github.com/rushisangani/BiometricAuthentication
 - Add autolock after 3min for macOS by just invalidating bioauty, if the app has entered background and not entered foreground etc. Mac: We could simply start autolock after 3 mins  iPhone: when the app enters background mode, its locked. no need for timeout here
@@ -115,3 +158,56 @@ AuthController.shared.permitAndAuth { success in
 - Add debugview fenced debug only. We can test BioAuth in preview when target is macOS. iOS does not work. so fence for macos as well maybe?
 - remove unit-tests?
 - Split this lib into two. Or merge to one
+- Localization Support
+Add support for localization to reach a wider audience. You can use NSLocalizedString for strings that will be displayed to the user.
+
+```swift
+let reason = NSLocalizedString("Unlock with Face ID", comment: "Reason for Face ID authentication")
+context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+      // Handle authentication
+}
+```
+
+- Detect Biometry Changes
+Implement functionality to detect if the biometric settings have changed since the user's last authentication. This enhances security by prompting re-authentication if changes are detected.
+
+- Auto-Lock Mechanism for macOS
+Add an auto-lock feature that invalidates the authentication context after a period of inactivity or when the app enters the background.
+
+```swift
+// In AuthController
+private var autoLockTimer: Timer?
+
+func startAutoLockTimer() {
+      autoLockTimer?.invalidate()
+      autoLockTimer = Timer.scheduledTimer(withTimeInterval: 180, repeats: false) { [weak self] _ in
+         self?._context?.invalidate()
+      }
+}
+
+func resetAutoLockTimer() {
+      startAutoLockTimer()
+}
+
+// Call `resetAutoLockTimer()` on user interaction
+```
+
+- Provide a fallback to passcode or password authentication if biometric authentication is unavailable or fails.
+
+```swift
+context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, error in
+      // Handle authentication
+}
+- Manage the lifecycle of `LAContext` instances by invalidating them when no longer needed to prevent unexpected behavior.
+
+```swift
+context.evaluatePolicy(policy, localizedReason: reason) { success, error in
+   if success {
+      // Authentication succeeded
+   } else {
+      // Authentication failed
+   }
+   // Invalidate context
+   context.invalidate()
+}
+

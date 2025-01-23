@@ -90,6 +90,33 @@ extension LAError.Code {
       }
    }
 }
+// ⚠️️ new
+extension LAError {
+      /// Provides a user-friendly error message for each LAError code
+      var localizedMessage: String {
+         switch self.code {
+         case .authenticationFailed:
+            return "Authentication was not successful because the user failed to provide valid credentials."
+         case .userCancel:
+            return "Authentication was canceled by the user."
+         case .userFallback:
+            return "Authentication was canceled because the user tapped the fallback button."
+         case .systemCancel:
+            return "Authentication was canceled by the system."
+         case .passcodeNotSet:
+            return "Authentication could not start because the passcode is not set on the device."
+         case .biometryNotAvailable:
+            return "Authentication could not start because biometric authentication is not available on the device."
+         case .biometryNotEnrolled:
+            return "Authentication could not start because the user has not enrolled in biometric authentication."
+         case .biometryLockout:
+            return "Authentication was not successful because there were too many failed biometric attempts and biometry is now locked."
+         default:
+            return self.localizedDescription
+         }
+      }
+}
+   
 // Alternative error messages: (more comprehensive?)
 // There was a problem verifying your identity
 // User pressed cancel

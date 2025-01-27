@@ -38,6 +38,7 @@ extension AuthController {
                complete?(true) // Calls the completion handler with a true value indicating success
 //            }
          case .failure(let error): // If the authentication failed
+            _ = error
             //Swift.print("authenticate - error: \(error)") // Logs the error to the console
 //            DispatchQueue.main.async {
                complete?(false) // Calls the completion handler with a false value indicating failure

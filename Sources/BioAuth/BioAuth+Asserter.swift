@@ -44,11 +44,11 @@ extension BioAuth {
    // This allows the calling code to handle the error appropriately.
    public static func checkAccessibility() throws {
           guard let context = Self.context else {
-              throw BioAuthError.contextUnavailable
+             throw BioAuthError.authFailed(reason: "contextUnavailable")
           }
           var authError: NSError?
           if !context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-              throw BioAuthError.biometryUnavailable(reason: authError?.localizedDescription ?? "Unknown error")
+             throw BioAuthError.authFailed(reason: authError?.localizedDescription ?? "Unknown error")
           }
       }
    /**

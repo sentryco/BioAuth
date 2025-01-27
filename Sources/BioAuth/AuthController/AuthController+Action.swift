@@ -133,6 +133,7 @@ extension AuthController {
    // It's important to manage the lifecycle of LAContext correctly to prevent unexpected behavior.
    // Suggestion: Invalidate the context upon failed authentication attempts or when it's no longer needed.
    fileprivate func performEval2(context: LAContext, completion: OnComplete?) {
+      let reason: String = "Scan your face to log in."
          context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
             DispatchQueue.main.async {
                if success {
